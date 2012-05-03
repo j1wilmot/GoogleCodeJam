@@ -1,4 +1,4 @@
-package qualification2012.speaking_in_tongues;
+package speaking_in_tongues;
 
 import static org.junit.Assert.*;
 

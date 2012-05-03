@@ -1,11 +1,8 @@
 package storeCredit;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
 public class StoreCredit {
@@ -17,12 +14,12 @@ public class StoreCredit {
 	 */
 	// TODO we should read file from standard in and put output to stdout
 	public static void main(String... args) throws IOException {
-		File file = new File("/Users/jeremywilmot/Documents/workspace/GoogleCodeJame/src/storeCredit/A-small-practice_Store_Credit.in");
-		File outFile = new File("/Users/jeremywilmot/Documents/workspace/GoogleCodeJame/src/storeCredit/A-small-practice_Store_Credit.out");
-		BufferedReader reader = new BufferedReader(new FileReader(file));
-		PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(outFile)));
-		String line = reader.readLine();
-		int numCases = Integer.parseInt(line);
+		// Set up input and outputs
+		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		PrintWriter writer = new PrintWriter(System.out);
+		
+		// First line holds number of cases in file
+		int numCases = Integer.parseInt(reader.readLine());
 		for (int caseNum = 1; caseNum <= numCases; caseNum++) {
 			int total = Integer.parseInt(reader.readLine());
 			int numCredits = Integer.parseInt(reader.readLine());
