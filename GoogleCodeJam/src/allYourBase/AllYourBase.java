@@ -1,8 +1,13 @@
 package allYourBase;
 
 import java.io.BufferedReader;
+<<<<<<< HEAD
 import java.io.IOException;
 import java.io.InputStreamReader;
+=======
+import java.io.FileReader;
+import java.io.IOException;
+>>>>>>> aea6743f03e1d008a18e9c98074ea64405f1f388
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
