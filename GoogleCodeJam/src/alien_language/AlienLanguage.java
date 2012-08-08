@@ -23,32 +23,44 @@ public class AlienLanguage {
 		}
 
 		for (int i = 0; i < numCases; i++) {
-			PatternProcessor processor = new PatternProcessorImpl(knownWords, wordLength);
-			int answer = processor.processPattern(reader.readLine());
+			PatternProcessor processor = new PatternProcessorImpl(wordLength, knownWords);
+			String nextLine = reader.readLine();
+			int answer = processor.processPattern(nextLine);
 			System.out.print("Case #" + (i + 1) + ": " + answer + "\n");
 		}
 	}
 
-	interface PatternProcessor {
-		int processPattern(String pattern);
+	static abstract class PatternProcessor {
+		int wordLength;
+		List<String> knownWords;
+		
+		PatternProcessor(int wordLength, List<String> knownWords) {
+			this.wordLength = wordLength;
+			this.knownWords = knownWords;
+		}
+		
+		abstract int processPattern(String pattern);
 	}
 	
-	
-	static class PatternProcessorImpl implements PatternProcessor {
-		List<String> knownWords;
-		int wordLength;
-		
-		PatternProcessorImpl(List<String> knownWords, int wordLength) {
-			this.knownWords = knownWords;
-			this.wordLength = wordLength;
+	/**  
+	 * A much more reasonable approach. Simple turn provided pattern into a regular expression
+	 * and then match regular expression against list of existing words.
+	 */
+	public static class PatternProcessorImpl extends PatternProcessor {
+		PatternProcessorImpl(int wordLength, List<String> knownWords) {
+			super(wordLength, knownWords);
 		}
-
+		
 		@Override
 		public int processPattern(String pattern) {
-			// TODO Auto-generated method stub
-			return 0;
+			String regexPattern = pattern.replaceAll("\\(", "\\[").replaceAll("\\)", "\\]");
+			int matches = 0;
+			for (String word : knownWords) {
+				if (Pattern.matches(regexPattern, word))
+					matches++;
+			}
+			return matches;
 		}
-		
 	}
 	
 	/**
@@ -56,16 +68,12 @@ public class AlienLanguage {
 	 * out fully, and then compare these expansions to the potential word list. This gets ugly for large patterns with many
 	 * "expandables". We can just swap out the PatternProcessor for a different implementation.
 	 */
-	static class BruteForcePatternProcessor {
-		List<String> knownWords;
-		int wordLength;
-		
-		BruteForcePatternProcessor(List<String> knownWords, int wordLength) {
-			this.knownWords = knownWords;
-			this.wordLength = wordLength;
+	static class BruteForcePatternProcessor extends PatternProcessor{
+		BruteForcePatternProcessor(int wordLength, List<String> knownWords) {
+			super(wordLength, knownWords);
 		}
 		
-		int processPattern(String pattern) {
+		public int processPattern(String pattern) {
 			List<String> potentialWords = new ArrayList<String>();
 			List<String> patterns = new ArrayList<String>();
 			patterns.add(pattern);
